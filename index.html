@@ -1,38 +1,112 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<style> 
-div {
-  width: 100px;
-  height: 100px;
-  background: rgb(183, 139, 217);
-  transition: width 1s;
-}
+  <meta charset="UTF-8">
+  <title>To-Do List Web App</title>
+  <style>
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      padding: 20px;
+      background-color: #ec83e8;
+    }
 
-#div1 {transition-timing-function: linear;}
-#div2 {transition-timing-function: ease;}
-#div3 {transition-timing-function: ease-in;}
-#div4 {transition-timing-function: ease-out;}
-#div5 {transition-timing-function: ease-in-out;}
+    h1 {
+      text-align: center;
+    }
 
-div:hover {
-  width: 300px;
-}
-</style>
+    #taskInput {
+      width: 70%;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    #addTaskBtn {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #fff;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    li.completed span {
+      text-decoration: line-through;
+      color: gray;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 
-<h1>The transition-timing-function Property</h1>
+  <h1>To-Do List</h1>
 
-<p>Hover over the div elements below, to see the different speed curves:</p>
+  <input type="text" id="taskInput" placeholder="Enter new task..." />
+  <button id="addTaskBtn">Add Task</button>
 
-<div id="div1">linear</div><br>
-<div id="div2">ease</div><br>
-<div id="div3">ease-in</div><br>
-<div id="div4">ease-out</div><br>
-<div id="div5">ease-in-out</div><br>
+  <ul id="taskList"></ul>
+
+  <script>
+    const taskInput = document.getElementById("taskInput");
+    const addTaskBtn = document.getElementById("addTaskBtn");
+    const taskList = document.getElementById("taskList");
+
+    addTaskBtn.addEventListener("click", () => {
+      const taskText = taskInput.value.trim();
+      if (taskText === "") return;
+
+      const li = document.createElement("li");
+
+      const span = document.createElement("span");
+      span.textContent = taskText;
+
+      const completeBtn = document.createElement("button");
+      completeBtn.textContent = "✓";
+      completeBtn.title = "Mark as completed";
+      completeBtn.onclick = () => li.classList.toggle("completed");
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "🗑";
+      deleteBtn.title = "Delete task";
+      deleteBtn.onclick = () => taskList.removeChild(li);
+
+      const btnGroup = document.createElement("div");
+      btnGroup.className = "buttons";
+      btnGroup.appendChild(completeBtn);
+      btnGroup.appendChild(deleteBtn);
+
+      li.appendChild(span);
+      li.appendChild(btnGroup);
+
+      taskList.appendChild(li);
+      taskInput.value = "";
+    });
+
+    taskInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") addTaskBtn.click();
+    });
+  </script>
 
 </body>
 </html>
-
-

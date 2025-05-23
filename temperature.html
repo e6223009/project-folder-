@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Temperature Converter</title>
+  <style>
+    body {
+      font-family:'Times New Roman', Times, serif;
+      padding: 40px;
+      background-color: #517899;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .converter {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 300px;
+      text-align: center;
+    }
+
+    input, select {
+      padding: 10px;
+      font-size: 16px;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    .conversion-type {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .result {
+      font-size: 20px;
+      font-weight: bold;
+      color: #333;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Temperature Converter</h1>
+
+  <div class="converter">
+    <input type="number" id="tempInput" placeholder="Enter temperature" />
+
+    <div class="conversion-type">
+      <label>
+        <input type="radio" name="conversion" value="CtoF" checked />
+        °C ➝ °F
+      </label>
+      <label>
+        <input type="radio" name="conversion" value="FtoC" />
+        °F ➝ °C
+      </label>
+    </div>
+
+    <div class="result" id="result">Result: --</div>
+  </div>
+
+  <script>
+    const tempInput = document.getElementById("tempInput");
+    const result = document.getElementById("result");
+    const conversionRadios = document.querySelectorAll('input[name="conversion"]');
+
+    function convertTemperature() {
+      const temp = parseFloat(tempInput.value);
+      if (isNaN(temp)) {
+        result.textContent = "Result: --";
+        return;
+      }
+
+      const conversionType = document.querySelector('input[name="conversion"]:checked').value;
+      let converted;
+
+      if (conversionType === "CtoF") {
+        converted = (temp * 9 / 5) + 32;
+        result.textContent = `Result: ${converted.toFixed(2)} °F`;
+      } else {
+        converted = (temp - 32) * 5 / 9;
+        result.textContent = `Result: ${converted.toFixed(2)} °C`;
+      }
+    }
+
+    tempInput.addEventListener("input", convertTemperature);
+    conversionRadios.forEach(radio => {
+      radio.addEventListener("change", convertTemperature);
+    });
+  </script>
+
+</body>
+</html>
